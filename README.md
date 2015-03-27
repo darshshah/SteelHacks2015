@@ -1,5 +1,4 @@
 # SteelHacks2015
 SteelHacks hackathon
 
-Yo man !
-
+Food discovery service along the route 
