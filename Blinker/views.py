@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 import argparse
 import json
 import pprint
@@ -38,7 +38,7 @@ DISPLAY_NO = 5
 def home(request):
     context = {}
     print "haha"
-    return render(request, 'Blinker/index.html', context)
+    return render(request, 'blinker/multiple-points.html', context)
 
 # Create your views here.
 def request(host, path, url_params=None):
@@ -127,12 +127,20 @@ def searchyelp(request):
         except urllib2.HTTPError as error:
             sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
+
     
     context['businesses']=allBusinesses
     context['searchTerm'] = searchterm
     return render(request, 'Blinker/displayCleanJason.html', context)
     
 
+
+def pointsArray(request):
+    print "Anish"
+
+    print request.GET['array']
+
+    return redirect('home')
 
 def cleanJson(business):
     

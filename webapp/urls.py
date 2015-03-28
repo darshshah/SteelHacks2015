@@ -8,6 +8,7 @@ urlpatterns = patterns('',
 
     url(r'^$',"Blinker.views.home", name='home'),
     url(r'^searches$',"Blinker.views.searchyelp", name='searchyelp'),
+    url(r'^pointsArray$',"Blinker.views.pointsArray", name='pointsArray'),
 
 )
 
