@@ -22,6 +22,19 @@ CONSUMER_SECRET = 'plwiQyMEKFLYczIEsUoAS-rrpYU'
 TOKEN = 'ya0NHVyyCHFAdWYAaUzFfTEcw4BKQQ99'
 TOKEN_SECRET = '6PSzFL2hqhgRkITzHsPo0rQ1u2U'
 
+
+
+# Constants to change
+DISPLAY_NO = 5
+
+
+
+
+
+
+
+
+
 def home(request):
     context = {}
     print "haha"
@@ -57,7 +70,7 @@ def request(host, path, url_params=None):
     oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
     signed_url = oauth_request.to_url()
 
-    print u'Querying {0} ...'.format(signed_url)
+    #print u'Querying {0} ...'.format(signed_url)
 
     conn = urllib2.urlopen(signed_url, None)
     try:
@@ -70,7 +83,7 @@ def request(host, path, url_params=None):
 def search(term, locationCordinates, miles):
     meter = 1609.34 * float(miles)
 
-    print "location coordinates " + locationCordinates
+    #print "location coordinates " + locationCordinates
     url_params = {
         'term': term.replace(' ', '+'),
         'll': locationCordinates.replace(' ', ','),
@@ -86,32 +99,19 @@ def get_business(business_id):
 def query_api(term, lloc, llong, miles):
 
     response = search(term, lloc+' '+llong, miles)
-
     businesses = response.get('businesses')
-
+    
     if not businesses:
         print u'No businesses for {0} in {1} found.'
-        return
+        return null
 
-    business_id = businesses[0]['id']
-
-
-    print u'{0} businesses found, querying business info for the top result "{1}" ...'.format(
-        len(businesses),
-        business_id
-    )
-
-   # put a for loop here.  We need information for all the business in the businesses array
-   # currently showing result for just 1 business
-    response = get_business(business_id)
-
-    print u'Result for business "{0}" found:'.format(business_id)
-    return response
+    return businesses
 
 def searchyelp(request):
-
-    context = {}
-
+    
+    context={}
+    allBusinesses=[]
+    
     if request.method == 'POST':
 
         searchterm = request.POST.get('term', False)
@@ -119,22 +119,30 @@ def searchyelp(request):
         searchlongitude = request.POST.get('longitude', False)
         searchmiles = request.POST.get('miles', False)
 
-        print searchterm
-        print searchslatitude
-        print searchlongitude
-        print searchmiles
-
+        businessToClean = query_api(searchterm, searchslatitude, searchlongitude, searchmiles)
         try:
-            context = query_api(searchterm, searchslatitude, searchlongitude, searchmiles)
-            print context
+            for x in range(0,DISPLAY_NO):
+                allBusinesses.append(cleanJson(businessToClean[x]))
+
         except urllib2.HTTPError as error:
             sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
-
-    return render(request, 'Blinker/index.html', context)
+    
+    context['businesses']=allBusinesses
+    context['searchTerm'] = searchterm
+    return render(request, 'Blinker/displayCleanJason.html', context)
     
 
 
-def cleanJson(request):
+def cleanJson(business):
+    
     context={}
-    return render(request, 'Blinker/displayCleanJason.html', context)
+    context['business_name'] = business.get('name')
+    context['business_phone'] = business.get('phone')
+    context['business_address']= business.get('location').get('address')[0]
+    context['business_image'] = business.get('image_url')
+    context['business_rating'] = business.get('rating')
+    context['business_ratingImage'] = business.get('rating_img_url')
+    context['business_url'] = business.get('mobile_url')
+    
+    return context
