@@ -6,6 +6,5 @@ urlpatterns = patterns('',
     # url(r'^$', 'webapp.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', blinker.views.home, name='home'),
+    url(r'^$',"blinker.views.home", name='home'),
 )
