@@ -25,7 +25,7 @@ TOKEN_SECRET = '6PSzFL2hqhgRkITzHsPo0rQ1u2U'
 def home(request):
     context = {}
     print "haha"
-    return render(request, 'Blinker/index.html', context)
+    return render(request, 'blinker/index.html', context)
 
 # Create your views here.
 def request(host, path, url_params=None):
@@ -126,11 +126,12 @@ def searchyelp(request):
 
         try:
             context = query_api(searchterm, searchslatitude, searchlongitude, searchmiles)
+            print context
         except urllib2.HTTPError as error:
             sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
-        return render(request, 'blinker/showresult.html', context)
+
+    return render(request, 'blinker/index.html', context)
     
-def cleanJson(request):
-    context = {}
-    return render(request, 'Blinker/displayCleanJason.html', context)
+
+
