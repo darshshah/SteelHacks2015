@@ -25,7 +25,6 @@
 
   </head>
   
-  {% if navbar %}
   <nav class="navbar navbar-inverse navbar-fixed-top" >
     <div class="container-fluid">
       <div class="navbar-header">
@@ -48,21 +47,10 @@
 	</ul>
       </div>
       
-      <div class="col-md-4 col-xs-1"></div>
-      <div class="nav navbar-nav col-md-4 col-xs-10" id="tinyPost"  hidden>
-	<form action="/add_post" method="post"  class="navbar-form" role="search" style="float:none;text-align:center; vertical-align: top;">
-          <input type="text" id="enter-your-text-input"  name="item" placeholder="Write a new post" maxlength="160" class="form-control" autofill="false"></input>
-	  
-          <button type="submit" class="btn btn-info">Post</button>
-	  {% csrf_token %}
-	</form>
-      </div>
-      <div class="col-md-4 col-xs-1"></div>
-      
       
     </div>
   </nav>
-  
+
   
   <br/>
   

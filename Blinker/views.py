@@ -129,3 +129,7 @@ def searchyelp(request):
     return render(request, 'blinker/index.html', context)
 
 
+
+def loadSampleYelp():
+    context = {}
+    return render(request, 'blinker/displayCleanJason.html', context)
