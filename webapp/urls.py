@@ -7,4 +7,6 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$',"blinker.views.home", name='home'),
+    url(r'^searchres$',"blinker.views.searchyelp", name='searchyelp'),
 )
+

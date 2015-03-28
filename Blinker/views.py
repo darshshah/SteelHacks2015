@@ -24,6 +24,7 @@ TOKEN_SECRET = '6PSzFL2hqhgRkITzHsPo0rQ1u2U'
 
 def home(request):
     context = {}
+    print "haha"
     return render(request, 'blinker/index.html', context)
 
 # Create your views here.
@@ -119,6 +120,23 @@ def query_api(term, location):
     print u'Result for business "{0}" found:'.format(business_id)
     pprint.pprint(response, indent=2)
 
+def searchyelp(request):
+
+    context = {}
+    
+    if request.method == 'POST':
+
+        searchterm = request.POST.get('term', False)
+        searchslatitude = request.POST.get('latitude', False)
+        searchlongitude = request.POST.get('longitude', False)
+        searchmiles = request.POST.get('miles', False)
+
+        print searchterm
+        print searchslatitude
+        print searchlongitude
+        print searchmiles
+
+    return render(request, 'blinker/index.html', context)
 
 def searchTerm():
     parser = argparse.ArgumentParser()
@@ -133,3 +151,7 @@ def searchTerm():
     except urllib2.HTTPError as error:
         sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
+
+def loadSampleYelp():
+    context = {}
+    return render(request, 'blinker/displayCleanJason.html', context)

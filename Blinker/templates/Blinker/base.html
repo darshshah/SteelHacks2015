@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    {% load staticfiles %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 minimum-scale=1, maximum-scale=1">
+    
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.material-design/0.2.2/css/material-wfont.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.material-design/0.2.2/css/material.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.material-design/0.2.2/css/ripples.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.material-design/0.2.2/css/ripples.min.css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap.material-design/0.2.2/js/material.min.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap.material-design/0.2.2/js/ripples.min.js"></script>
+    <script src="{% static 'socialnetwork/comments.js'  %}"></script>
+    <script src="{% static 'socialnetwork/streamRefresh.js'  %}"></script>
+    <script src="{% static 'socialnetwork/customanimations.js'  %}"></script>
+    
+    <title>Blinker</title>
+    <link rel="shortcut icon" />
+
+  </head>
+  
+  <nav class="navbar navbar-inverse navbar-fixed-top" >
+    <div class="container-fluid">
+      <div class="navbar-header">
+	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+	</button>
+	<a class="navbar-brand" href="{% url 'home' %}">Wittyer</a>
+      </div>
+      
+      
+      
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        {% block active-page %}{% endblock %}
+	
+	<ul class="nav navbar-nav navbar-right">
+	  <li><a href="#">{{logged_user.first_name}} {{logged_user.last_name}}</a></li>
+	</ul>
+      </div>
+      
+      
+    </div>
+  </nav>
+
+  
+  <br/>
+  
+  <style type="text/css">
+    body{ 
+    background-image:url("https://s3.amazonaws.com/wittyerphotos/background29.jpg"); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index=-1;
+    background-size: cover;
+    }
+    .posts{
+    opacity:0;
+    }
+  </style>
+  
+  <br/>
+  <br/>
+
+  <div class="container-fluid ">
+    <h2 class="well shadow-z-5" id="postobject" >
+      {% block jumbo %}{% endblock %}
+    </h2>
+  </div>
+  
+  
+  <body>
+    
+    <div class="container">
+      <div class="text-center">
+	{% block content %}{% endblock %}
+      </div>
+    </div>
+  </body>
+</html>
+
+
