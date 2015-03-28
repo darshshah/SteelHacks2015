@@ -38,7 +38,7 @@ DISPLAY_NO = 5
 def home(request):
     context = {}
     print "haha"
-    return render(request, 'blinker/multiple-points.html', context)
+    return render(request, 'Blinker/multiple-points.html', context)
 
 # Create your views here.
 def request(host, path, url_params=None):
