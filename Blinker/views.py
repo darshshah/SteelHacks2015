@@ -57,7 +57,7 @@ def request(host, path, url_params=None):
     oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
     signed_url = oauth_request.to_url()
 
-    print u'Querying {0} ...'.format(url)
+    print u'Querying {0} ...'.format(signed_url)
 
     conn = urllib2.urlopen(signed_url, None)
     try:
@@ -68,12 +68,13 @@ def request(host, path, url_params=None):
     return response
 
 def search(term, locationCordinates, miles):
+    meter = 1609.34 * float(miles)
 
     print "location coordinates " + locationCordinates
     url_params = {
         'term': term.replace(' ', '+'),
-        'll': locationCordinates,
-        'radius_filter':miles
+        'll': locationCordinates.replace(' ', ','),
+        'radius_filter':meter
     }
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
 
@@ -84,7 +85,7 @@ def get_business(business_id):
 
 def query_api(term, lloc, llong, miles):
 
-    response = search(term, lloc+','+llong, miles)
+    response = search(term, lloc+' '+llong, miles)
 
     businesses = response.get('businesses')
 
@@ -94,15 +95,18 @@ def query_api(term, lloc, llong, miles):
 
     business_id = businesses[0]['id']
 
+
     print u'{0} businesses found, querying business info for the top result "{1}" ...'.format(
         len(businesses),
         business_id
     )
 
+   # put a for loop here.  We need information for all the business in the businesses array
+   # currently showing result for just 1 business
     response = get_business(business_id)
 
     print u'Result for business "{0}" found:'.format(business_id)
-    pprint.pprint(response, indent=2)
+    return response
 
 def searchyelp(request):
 
@@ -121,15 +125,11 @@ def searchyelp(request):
         print searchmiles
 
         try:
-            query_api(searchterm, searchslatitude, searchlongitude, searchmiles)
+            context = query_api(searchterm, searchslatitude, searchlongitude, searchmiles)
         except urllib2.HTTPError as error:
             sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
+    return render(request, 'blinker/showresult.html', context)
+    
 
-    return render(request, 'blinker/index.html', context)
 
-
-
-def loadSampleYelp():
-    context = {}
-    return render(request, 'blinker/displayCleanJason.html', context)
