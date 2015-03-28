@@ -22,6 +22,10 @@ CONSUMER_SECRET = 'plwiQyMEKFLYczIEsUoAS-rrpYU'
 TOKEN = 'ya0NHVyyCHFAdWYAaUzFfTEcw4BKQQ99'
 TOKEN_SECRET = '6PSzFL2hqhgRkITzHsPo0rQ1u2U'
 
+def home(request):
+    context = {}
+    return render(request, 'blinker/index.html', context)
+
 # Create your views here.
 def request(host, path, url_params=None):
     """Prepares OAuth authentication and sends the request to the API.
