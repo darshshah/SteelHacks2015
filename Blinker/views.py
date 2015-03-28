@@ -133,3 +133,7 @@ def searchTerm():
     except urllib2.HTTPError as error:
         sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
+
+def loadSampleYelp():
+    context = {}
+    return render(request, 'blinker/displayCleanJason.html', context)
