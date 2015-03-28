@@ -67,45 +67,29 @@ def request(host, path, url_params=None):
 
     return response
 
-def search(term, location):
-    """Query the Search API by a search term and location.
-    Args:
-        term (str): The search term passed to the API.
-        location (str): The search location passed to the API.
-    Returns:
-        dict: The JSON response from the request.
-    """
+def search(term, locationCordinates, miles):
 
+    print "location coordinates " + locationCordinates
     url_params = {
         'term': term.replace(' ', '+'),
-        'location': location.replace(' ', '+'),
-        'limit': SEARCH_LIMIT
+        'll': locationCordinates,
+        'radius_filter':miles
     }
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
 
 def get_business(business_id):
-    """Query the Business API by a business ID.
-    Args:
-        business_id (str): The ID of the business to query.
-    Returns:
-        dict: The JSON response from the request.
-    """
     business_path = BUSINESS_PATH + business_id
 
     return request(API_HOST, business_path)
 
-def query_api(term, location):
-    """Queries the API by the input values from the user.
-    Args:
-        term (str): The search term to query.
-        location (str): The location of the business to query.
-    """
-    response = search(term, location)
+def query_api(term, lloc, llong, miles):
+
+    response = search(term, lloc+','+llong, miles)
 
     businesses = response.get('businesses')
 
     if not businesses:
-        print u'No businesses for {0} in {1} found.'.format(term, location)
+        print u'No businesses for {0} in {1} found.'
         return
 
     business_id = businesses[0]['id']
@@ -123,7 +107,7 @@ def query_api(term, location):
 def searchyelp(request):
 
     context = {}
-    
+
     if request.method == 'POST':
 
         searchterm = request.POST.get('term', False)
@@ -136,18 +120,12 @@ def searchyelp(request):
         print searchlongitude
         print searchmiles
 
+        try:
+            query_api(searchterm, searchslatitude, searchlongitude, searchmiles)
+        except urllib2.HTTPError as error:
+            sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
+
+
     return render(request, 'blinker/index.html', context)
 
-def searchTerm():
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM, type=str, help='Search term (default: %(default)s)')
-    parser.add_argument('-l', '--location', dest='location', default=DEFAULT_LOCATION, type=str, help='Search location (default: %(default)s)')
-
-    input_values = parser.parse_args()
-
-    try:
-        query_api(input_values.term, input_values.location)
-    except urllib2.HTTPError as error:
-        sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
