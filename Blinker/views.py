@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 import argparse
 import json
 import pprint
@@ -25,7 +25,7 @@ TOKEN_SECRET = '6PSzFL2hqhgRkITzHsPo0rQ1u2U'
 def home(request):
     context = {}
     print "haha"
-    return render(request, 'blinker/index.html', context)
+    return render(request, 'blinker/multiple-points.html', context)
 
 # Create your views here.
 def request(host, path, url_params=None):
@@ -132,6 +132,13 @@ def searchyelp(request):
 
 
     return render(request, 'blinker/index.html', context)
+
+def pointsArray(request):
+    print "Anish"
+
+    print request.GET['array']
+
+    return redirect('home')
     
 
 
