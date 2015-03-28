@@ -35,7 +35,7 @@ body { height: 100%; margin: 0px; padding: 0px }
   var distance = null;
 function createMarker(latlng, label, html) {
 // alert("createMarker("+latlng+","+label+","+html+","+color+")");
-    var contentString = '<b>'+label+'</b><br>'+html;
+  var contentString = '<b>'+label+'</b><br>'+html+'';
     var marker = new google.maps.Marker({
         position: latlng,
         map: map,
@@ -199,7 +199,10 @@ var totalTime = 0;
         var firstLatLong = polyline.GetPointAtDistance(distanceCoveredPoint/2);
         console.log(firstLatLong);
         pointsArray[0] = firstLatLong;
-        marker = createMarker(firstLatLong,"point","","red");
+        firstLat = firstLatLong.lat();
+        firstLong = firstLatLong.lng();
+        var dist=document.getElementById("distance");
+        marker = createMarker(firstLatLong,"point","<a href='getPlace?latitude="+firstLat+"&longitute="+firstLong+"&term=bars&dist="+dist+">View Places</a>","red");
         /*marker.setPosition(firstLatLong);*/
         marker.setTitle("distance:"+distanceSoFar);
         var i;
@@ -208,7 +211,7 @@ var totalTime = 0;
           firstLatLong = polyline.GetPointAtDistance(distanceSoFar);
           console.log(firstLatLong);
           pointsArray[i] = firstLatLong;
-          marker = createMarker(firstLatLong,"point","","red");
+          marker = createMarker(firstLatLong,"point","<a href='getPlace'>View Places</a>","red");
           /*marker.setPosition(firstLatLong);*/
           marker.setTitle("distance:"+distanceSoFar);
         }

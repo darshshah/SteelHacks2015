@@ -27,14 +27,6 @@ TOKEN_SECRET = '6PSzFL2hqhgRkITzHsPo0rQ1u2U'
 # Constants to change
 DISPLAY_NO = 5
 
-
-
-
-
-
-
-
-
 def home(request):
     context = {}
     print "haha"
@@ -111,21 +103,30 @@ def searchyelp(request):
     
     context={}
     allBusinesses=[]
-    
+
+    if request.method == 'GET':
+        print request.GET
+        searchterm = request.GET.get('term', False)
+        searchslatitude = request.GET.get('latitude', False)
+        searchlongitude = request.GET.get('longitude', False)
+        searchmiles = request.GET.get('dist', False)
+
+    '''
     if request.method == 'POST':
 
         searchterm = request.POST.get('term', False)
         searchslatitude = request.POST.get('latitude', False)
         searchlongitude = request.POST.get('longitude', False)
         searchmiles = request.POST.get('miles', False)
-
-        businessToClean = query_api(searchterm, searchslatitude, searchlongitude, searchmiles)
-        try:
-            for x in range(0,DISPLAY_NO):
-                allBusinesses.append(cleanJson(businessToClean[x]))
-
-        except urllib2.HTTPError as error:
-            sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
+    '''
+    
+    businessToClean = query_api(searchterm, searchslatitude, searchlongitude, searchmiles)
+    try:
+        for x in range(0,DISPLAY_NO):
+            allBusinesses.append(cleanJson(businessToClean[x]))
+            
+    except urllib2.HTTPError as error:
+        sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
 
     
@@ -136,10 +137,7 @@ def searchyelp(request):
 
 
 def pointsArray(request):
-    print "Anish"
-
     print request.GET['array']
-
     return redirect('home')
 
 def cleanJson(business):
