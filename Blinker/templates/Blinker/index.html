@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Yelp</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+<form>
+	<form>
+  <div class="form-group">
+    <label for="term">Term</label>
+    <input type="text" class="form-control" id="term" placeholder="Enter Term">
+  </div>
+  <div class="form-group">
+    <label for="latitude">Latitude</label>
+    <input type="text" class="form-control" id="latitude" placeholder="Latitude">
+  </div>
+  <div class="form-group">
+    <label for="Longitude">Longitude</label>
+    <input type="text" class="form-control" id="Longitude" placeholder="Longitude">
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+   {% csrf_token %}
+</form>
+      
+</body>
+</html>
