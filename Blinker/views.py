@@ -130,6 +130,6 @@ def searchyelp(request):
 
 
 
-def cleanJson():
+def cleanJson(request):
     context = {}
     return render(request, 'Blinker/displayCleanJason.html', context)
