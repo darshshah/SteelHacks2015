@@ -139,6 +139,7 @@ def pointsArray(request):
     print request.GET['array']
 
     return redirect('home')
-    
 
-
+def cleanJson(request):
+    context={}
+    return render(request, 'Blinker/displayCleanJason.html', context)
