@@ -23,7 +23,7 @@ TOKEN = 'ya0NHVyyCHFAdWYAaUzFfTEcw4BKQQ99'
 TOKEN_SECRET = '6PSzFL2hqhgRkITzHsPo0rQ1u2U'
 
 # Create your views here.
-t(host, path, url_params=None):
+def request(host, path, url_params=None):
     """Prepares OAuth authentication and sends the request to the API.
     Args:
         host (str): The domain host of the API.
@@ -116,7 +116,7 @@ def query_api(term, location):
     pprint.pprint(response, indent=2)
 
 
-def main():
+def searchTerm():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM, type=str, help='Search term (default: %(default)s)')
@@ -129,6 +129,3 @@ def main():
     except urllib2.HTTPError as error:
         sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
-
-if __name__ == '__main__':
-    main()
