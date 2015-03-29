@@ -57,6 +57,7 @@ function createMarker(latlng, label, html) {
         data: { position : JSON.stringify(marker.getPosition()), distance: document.getElementById("distance").value},
         dataType: 'text',
         success: function(result) {
+          $('html').html(result);
         
     }
 });
@@ -351,7 +352,7 @@ var totalTime = 0;
     <i class="mdi-maps-place"></i><input type="text" name="end" id="end" value="" placeholder="End"></input>
     </span>
     <span class="well" style="margin-right:30px" >
-    <input type="text" name="distance" id="distance" placeholder="Distance" value=""></input>
+    <input type="text" name="distance" id="distance" placeholder="Distance" value="0.5"></input>
     </span>
       <input class="btn btn-success" type="submit" name="submit" id="submit" onclick="initialize()"></input>
   </div> 
