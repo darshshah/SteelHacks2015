@@ -1,3 +1,4 @@
+<!--
 {% extends 'Blinker/base.html' %}
 
 {% block jumbo  %}
@@ -5,35 +6,45 @@
 {% endblock  %}
 
 {% block content  %}
+-->
+<div id="searchResults">
 
-{% for business in businesses  %}
-<div class="row">
   <div class="col-md-4 col-xs-0"></div>
   <div class="col-md-4 col-xs-12">
-    <li class="list-group-item" style="background-color:rgba(256,256,256,0.6);">
-      <div class="media">
-	<div class="media-left">
-	  <a href="{{business.business_url}}">
-	    <img class="media-object img-rounded" src="{{business.business_image}}" height="90px" widht="90px">
-	  </a>
-	</div>
-	<div class="media-body text-left">
-	  <h4 class="media-heading">{{business.business_name}}<br/>
-	    <small>
-	      {{business.business_address}}<br/>
-	      {{business.business_phone}}<br/>
-	    </small>
-	  </h4>
-	  <a href="{{business.business_url}}">View on yelp</a><br/>
-	  <a href="#">Get Directions</a>
-	</div>
-      </div>
-    </li>
+    <button class="btn btn-primary" onClick="hideSearch()">Back</button>
   </div>
   <div class="col-md-4 col-xs-0"></div>
+
+  {% for business in businesses  %}
+  <div class="row">
+    <div class="col-md-4 col-xs-0"></div>
+    <div class="col-md-4 col-xs-12">
+      <li class="list-group-item" style="background-color:rgba(256,256,256,0.75);">
+	<div class="media">
+	  <div class="media-left">
+	    <a href="{{business.business_url}}">
+	      <img class="media-object img-rounded" src="{{business.business_image}}" height="90px" widht="90px">
+	    </a>
+	  </div>
+	  <div class="media-body text-left">
+	    <h4 class="media-heading">
+	      {{business.business_name}} {{business.business_rating}}
+	      <br/>
+	      <small>
+		{{business.business_address}}<br/>
+		{{business.business_phone}}<br/>
+	      </small>
+	    </h4>
+	    <a href="{{business.business_url}}">View on yelp</a><br/>
+	    <a href="#">Add to route</a>
+	  </div>
+	</div>
+      </li>
+    </div>
+    <div class="col-md-4 col-xs-0"></div>
+  </div>
+  {% endfor %}
 </div>
-{% endfor %}
-
-
-{% endblock %}
-  
+<!--
+    {% endblock %}
+  -->
