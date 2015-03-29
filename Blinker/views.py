@@ -146,7 +146,7 @@ def searchyelp(request):
     
     businessToClean = query_api(searchterm, searchslatitude, searchslongitude, searchmiles)
 
-    gasStationsNearMe = getGasStations(searchslatitude, searchslongitude, searchmiles)
+    #gasStationsNearMe = getGasStations(searchslatitude, searchslongitude, searchmiles)
 
     print "gas station info \n"
     #print gasStationsNearMe
@@ -156,8 +156,8 @@ def searchyelp(request):
         for x in range(0,DISPLAY_NO):
             allBusinesses.append(cleanJson(businessToClean[x]))
 
-        for y in range(0,DISPLAY_NO):
-            gasBusiness.append(cleanJsonGas(gasStationsNearMe['stations'][y]))
+        #for y in range(0,DISPLAY_NO):
+            #gasBusiness.append(cleanJsonGas(gasStationsNearMe['stations'][y]))
             
     except urllib2.HTTPError as error:
         sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
@@ -166,6 +166,7 @@ def searchyelp(request):
     
     context['businesses'] = allBusinesses
     context['searchTerm'] = searchterm
+    context['gasstations'] = gasBusiness
 
     return render(request, 'Blinker/displayCleanJason.html', context)
 

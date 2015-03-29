@@ -28,10 +28,10 @@
 
     var goldStar = {
     path: google.maps.SymbolPath.CIRCLE,
-    fillOpacity: 0,
-    scale: 50,
-    strokeColor: 'blue',
-    strokeWeight: 5
+    fillOpacity: 0.3,
+    scale: 70,
+    strokeColor: 'gray',
+    strokeWeight: 2
     };
     function createMarker(latlng, label, html) {
     var contentString = '<b>'+label+'</b><br>'+html+'';
@@ -46,8 +46,8 @@ marker.myname = label;
 // gmarkers.push(marker);
 
 google.maps.event.addListener(marker, 'click', function() {
-
-
+	map.panTo(this.getPosition());					  
+	map.setZoom(16);					  
 	$.ajax({
 		url: '/getPlace',
 		type: 'GET',
@@ -55,8 +55,8 @@ google.maps.event.addListener(marker, 'click', function() {
 		data: { position : JSON.stringify(marker.getPosition()), distance: document.getElementById("distance").value},
 		dataType: 'text',
 		success: function(result) {
-
-			$( "body" ).append(result);
+						  
+		 $( "body" ).append(result).fadeIn('slow');
 
 
 
@@ -317,6 +317,8 @@ function putMarkerOnRoute(percentage) {
 // Gandhis functions
 
 function reroute(lat, lng) {
+
+hideSearch();
    directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:false});
    
    var chicago;
@@ -423,17 +425,22 @@ function hideSearch(){
 	  }
 	  #start {
 	  background-color: #fff;
-	  text-align: center;
+	  text-align: left;
 	  text-overflow: ellipsis;
 	  }
 	  #end {
 	  background-color: #fff;
-	  text-align: center;
+	  text-align: left;
 	  text-overflow: ellipsis;
 	  }
 	  #distance {
 	  background-color: #fff;
-	  text-align: center;
+	  text-align: left;
+	  text-overflow: ellipsis;
+	  }
+	  #category {
+	  background-color: #fff;
+	  text-align: left;
 	  text-overflow: ellipsis;
 	  }
 	</style>
@@ -445,9 +452,10 @@ function hideSearch(){
 <body onload="initialize()" class="text-center">
   
   <section id="map_canvas"></section>    
+
   <div class="navbar navbar-material-indigo-800">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/">Blinker</a>
+      <a class="navbar-brand" href="/"><b>Blinker</b></a>
     </div>
   </div>  
   
@@ -456,18 +464,20 @@ function hideSearch(){
   <div class="inputs" id="inputs">
     
     <div class="row" >
-      <div class="col-md-2 col-xs-1"></div>
+      <div class="col-md-0 col-xs-1"></div>
       <div class="col-md-3 col-xs-10">
-	<input class="form-control floating-label" type="text" name="start" id="start"  placeholder="Start Location">
+	<input class="form-control floating-label text-left" type="text" name="start" id="start"  placeholder=" Start Location">
 	<span class="material-input"></span>
       </div>
       <div class="col-md-2 col-xs-1"></div>
     </div>
+
     <br/>
+
     <div class="row" >
-      <div class="col-md-2 col-xs-1"></div>
+      <div class="col-md-0 col-xs-1"></div>
       <div class="col-md-3 col-xs-10">
-	<input class="form-control" type="text" name="end" id="end" value="" placeholder="Destination">
+	<input class="form-control text-left" type="text" name="end" id="end" value="" placeholder=" Destination">
 	<span class="material-input"></span>
       </div>
       <div class="col-md-2 col-xs-1"></div>
@@ -482,34 +492,27 @@ function hideSearch(){
       </div>
       <div class="col-md-2 col-xs-1"></div>
     </div> 
+    
+    <br/>
 
     <div class="row" >
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-	<div class="btn-group">
-	  <a href="javascript:void(0)" class="btn btn-default btn-xs">Food</a>
-	  <a data-target="#" class="btn btn-inverse btn-xs dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-	  <ul class="dropdown-menu">
-            <li><a href="javascript:void(0)">Action</a></li>
-            <li><a href="javascript:void(0)">Another action</a></li>
-            <li><a href="javascript:void(0)">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="javascript:void(0)">Separated link</a></li>
-	  </ul>
-	</div>
+      <div class="col-md-0 col-xs-1"></div>
+      <div class="col-md-2 col-xs-4">
+	<select class="form-control" id="category">
+	  <option value="Popular">Popular</option>
+	  <option value="Bars">Bar</option>
+	  <option value="Food">Food</option>
+	  <option value="Petrol Pump">Petrol Pump</option>
+	</select>
       </div>
-      <div class="col-md-4"></div>
-    </div> 
-	
-
-    <div class="row" >
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-	<input class="btn btn-primary btn-sm " type="submit" name="submit" id="submit" onclick="initialize('hideme')"></input>
+      <div class="col-md-1 col-xs-1">
+      	<input class="btn btn-primary btn-sm" type="submit" name="submit" id="submit" onclick="initialize()"></input>
       </div>
-      <div class="col-md-4"></div>
     </div> 
+  
   </div>  
+
   <br/>
+
 </body>
 </html>

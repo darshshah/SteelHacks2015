@@ -9,16 +9,22 @@
 -->
 <div id="searchResults">
 
-  <div class="col-md-4 col-xs-0"></div>
-  <div class="col-md-4 col-xs-12">
-    <button class="btn btn-primary btn-sm" onClick="hideSearch()">Back</button>
-  </div>
-  <div class="col-md-4 col-xs-0"></div>
-
-  {% for business in businesses  %}
   <div class="row">
     <div class="col-md-4 col-xs-0"></div>
     <div class="col-md-4 col-xs-12">
+      <button class="btn btn-primary btn-sm" onClick="hideSearch()">Back</button>
+    </div>
+    <div class="col-md-4 col-xs-0"></div>
+  </div>
+
+  <div style="overflow-y:scroll; height:400px;">
+    
+  {% for business in businesses  %}
+  <div class="row">
+    
+    <div class="col-md-4 col-xs-0"></div>
+    <div class="col-md-4 col-xs-12">
+      
       <li class="list-group-item" style="background-color:rgba(256,256,256,0.95);">
 	<div class="media">
 	  <div class="media-left">
@@ -26,9 +32,18 @@
 	      <img class="media-object img-rounded" src="{{business.business_image}}" height="90px" widht="90px">
 	    </a>
 	  </div>
+	  
+	
 	  <div class="media-body text-left">
 	    <h4 class="media-heading">
-	      {{business.business_name}} {{business.business_rating}}
+	      <span>{{business.business_name}} 
+	      </span>
+	      <span class="text-right" style="float:right;">
+		<img src="{{business.business_ratingImage}}">
+	      </span>
+	      <span class="text-right" style="float:right;">
+		{{business.business_rating}}
+	      </span>
 	      <br/>
 	      <small>
 		{{business.business_address}}<br/>
@@ -40,10 +55,14 @@
 	  </div>
 	</div>
       </li>
+
+
     </div>
+
     <div class="col-md-4 col-xs-0"></div>
   </div>
   {% endfor %}
+</div>
 </div>
 <!--
     {% endblock %}
