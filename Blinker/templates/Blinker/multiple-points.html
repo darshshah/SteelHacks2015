@@ -16,6 +16,21 @@ body { height: 100%; margin: 0px; padding: 0px }
       top:50px; 
       bottom: 0; 
       }
+      #start {
+        background-color: #fff;
+        text-align: center;
+        text-overflow: ellipsis;
+      }
+      #end {
+        background-color: #fff;
+        text-align: center;
+        text-overflow: ellipsis;
+      }
+      #distance {
+        background-color: #fff;
+        text-align: center;
+       text-overflow: ellipsis;
+      }
     </style>
 
 {% load staticfiles %}
@@ -34,6 +49,14 @@ body { height: 100%; margin: 0px; padding: 0px }
   var infowindow = new google.maps.InfoWindow();
   var pointsArray = null;
   var distance = null;
+  var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+  var goldStar = {
+    path: google.maps.SymbolPath.CIRCLE,
+    fillOpacity: 0,
+    scale: 50,
+    strokeColor: 'blue',
+    strokeWeight: 5
+  };
 function createMarker(latlng, label, html) {
 // alert("createMarker("+latlng+","+label+","+html+","+color+")");
   var contentString = '<b>'+label+'</b><br>'+html+'';
@@ -41,6 +64,7 @@ function createMarker(latlng, label, html) {
         position: latlng,
         map: map,
         title: label,
+        icon: goldStar,
         zIndex: Math.round(latlng.lat()*-100000)<<5
         });
         marker.myname = label;
@@ -342,24 +366,35 @@ var totalTime = 0;
   </h2>
       </div>
       <br/><br/>
-      <div class="row" >
-  <div class="col-md-2 col-xs-2" ></div>
-  <div class="col-md-8 col-xs-8">
-    <span class="well" style="margin-right:30px;text-align:center" >
-      <i class="mdi-maps-place"></i><input type="text" name="start" id="start" value="" placeholder="Start"></input>
-    </span>
-    <span class="well" style="margin-right:30px" >
-    <i class="mdi-maps-place"></i><input type="text" name="end" id="end" value="" placeholder="End"></input>
-    </span>
-    <span class="well" style="margin-right:30px" >
-    <input type="text" name="distance" id="distance" placeholder="Distance" value="0.5"></input>
-    </span>
-      <input class="btn btn-success" type="submit" name="submit" id="submit" onclick="initialize()"></input>
-  </div> 
-  <div class="col-md-4 col-xs-2"></div>
-      </div>
-      <br/>
+  <div class="row" >
+    <div class="col-md-2 col-xs-1"></div>
+    <div class="col-md-3 col-xs-10">
+      <input class="form-control" type="text" name="start" id="start" value="" placeholder="Start"></input>
     </div>
+    <div class="col-md-2 col-xs-1"></div>
+    <div class="col-md-3 col-xs-10">
+      <input class="form-control" type="text" name="end" id="end" value="" placeholder="End"></input>
+    </div>
+    <div class="col-md-1 col-xs-1"></div>
+  </div>
+  
+  <br/>
+    <div class="row" >
+
+      <div class="col-md-5"></div>
+    <div class="col-md-2 ">
+     <input class="form-control"  type="text" name="distance" id="distance" placeholder="Distance" value="0.5"></input>
+    
+  </div>
+  </div> 
+  
+  <div class="row" >
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+    <input class="btn btn-success" type="submit" name="submit" id="submit" onclick="initialize()"></input>
+  </div>
+  </div> 
+      <br/>
     
     
     
