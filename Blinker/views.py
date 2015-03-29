@@ -61,7 +61,7 @@ def request(host, path, url_params=None):
     token = oauth2.Token(TOKEN, TOKEN_SECRET)
     oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
     signed_url = oauth_request.to_url()
-
+    print signed_url
     #print u'Querying {0} ...'.format(signed_url)
 
     conn = urllib2.urlopen(signed_url, None)
@@ -72,15 +72,19 @@ def request(host, path, url_params=None):
 
     return response
 
-def search(term, locationCordinates, miles):
+def searchingYelp(term, locationCordinates, miles):
+    print 'in search'
     meter = 1609.34 * float(miles)
-
+    print 'afer meter'
     #print "location coordinates " + locationCordinates
     url_params = {
         'term': term.replace(' ', '+'),
         'll': locationCordinates.replace(' ', ','),
         'radius_filter':meter
     }
+
+    print url_params
+
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
 
 def get_business(business_id):
@@ -90,7 +94,12 @@ def get_business(business_id):
 
 def query_api(term, lloc, llong, miles):
 
-    response = search(term, lloc+' '+llong, miles)
+    print 'query sent'
+    print 'le'
+    response = searchingYelp(term, str(lloc)+' '+str(llong), miles)
+    
+    print response
+
     businesses = response.get('businesses')
     
     if not businesses:
@@ -104,12 +113,16 @@ def searchyelp(request):
     context={}
     allBusinesses=[]
 
+    
     if request.method == 'GET':
-        print request.GET
-        searchterm = request.GET.get('term', False)
-        searchslatitude = request.GET.get('latitude', False)
-        searchlongitude = request.GET.get('longitude', False)
-        searchmiles = request.GET.get('dist', False)
+        searchterm = 'food'
+        data = json.loads(request.GET.get('position'))
+        searchslatitude= data['k']
+        searchslongitude =data['D']
+        searchmiles = request.GET.get('distance')
+
+        print searchslatitude
+        print searchslongitude
 
     '''
     if request.method == 'POST':
@@ -120,7 +133,10 @@ def searchyelp(request):
         searchmiles = request.POST.get('miles', False)
     '''
     
-    businessToClean = query_api(searchterm, searchslatitude, searchlongitude, searchmiles)
+    businessToClean = query_api(searchterm, searchslatitude, searchslongitude, searchmiles)
+
+    print businessToClean
+
     try:
         for x in range(0,DISPLAY_NO):
             allBusinesses.append(cleanJson(businessToClean[x]))
@@ -128,7 +144,7 @@ def searchyelp(request):
     except urllib2.HTTPError as error:
         sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
-
+    print 'I am final'
     
     context['businesses']=allBusinesses
     context['searchTerm'] = searchterm

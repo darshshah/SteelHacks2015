@@ -49,6 +49,17 @@ function createMarker(latlng, label, html) {
     google.maps.event.addListener(marker, 'click', function() {
         infowindow.setContent(contentString+"<br>"+marker.getPosition().toUrlValue(6)); 
         infowindow.open(map,marker);
+
+        $.ajax({
+        url: '/getPlace',
+        type: 'GET',
+        contentType: 'application/json; charset=utf-8',
+        data: { position : JSON.stringify(marker.getPosition()), distance: document.getElementById("distance").value},
+        dataType: 'text',
+        success: function(result) {
+        
+    }
+});
         });
     return marker;
 }
@@ -255,8 +266,7 @@ var totalTime = 0;
       /*putMarkerOnRoute(50);*/
 
       totalDist = totalDist / 1000.
-      document.getElementById("total").innerHTML = "total distance is: "+ totalDist + " km<br>total time is: " + (totalTime / 60).toFixed(2) + " minutes";
-//      document.getElementById("totalTime").value = (totalTime/60.).toFixed(2);
+      
       }
 
       function putMarkerOnRoute(percentage) {
@@ -286,7 +296,7 @@ var totalTime = 0;
         firstLat = firstLatLong.lat();
         firstLong = firstLatLong.lng();
         var dist=document.getElementById("distance");
-        marker = createMarker(firstLatLong,"point","<a href='getPlace?latitude="+firstLat+"&longitute="+firstLong+"&term=bars&dist="+dist+">View Places</a>","red");
+        marker = createMarker(firstLatLong,"point","","red");
         /*marker.setPosition(firstLatLong);*/
         marker.setTitle("distance:"+distanceSoFar);
         var i;
@@ -295,7 +305,7 @@ var totalTime = 0;
           firstLatLong = polyline.GetPointAtDistance(distanceSoFar);
           console.log(firstLatLong);
           pointsArray[i] = firstLatLong;
-          marker = createMarker(firstLatLong,"point","<a href='getPlace'>View Places</a>","red");
+          marker = createMarker(firstLatLong,"point","","red");
           /*marker.setPosition(firstLatLong);*/
           marker.setTitle("distance:"+distanceSoFar);
         }
