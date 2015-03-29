@@ -250,8 +250,10 @@ var totalTime = 0;
         totalDist += myroute.legs[i].distance.value;
         totalTime += myroute.legs[i].duration.value;      
       }
+      console.log("DIstance:");
       console.log(totalDist);
-      console.log(distance);
+      console.log("Time:");
+      console.log((totalTime / 60).toFixed(2));
       distance = document.getElementById("distance").value;
       if (distance == "")
       {
@@ -298,7 +300,7 @@ var totalTime = 0;
         var dist=document.getElementById("distance");
         marker = createMarker(firstLatLong,"point","","red");
         /*marker.setPosition(firstLatLong);*/
-        marker.setTitle("distance:"+distanceSoFar);
+        marker.setTitle("Time to reach(minutes):"+(totalTime/(numberPoints+1)/ 60).toFixed(2)+"\nDistance(miles):"+(distanceSoFar/1000.0));
         var i;
         for(i=1;i<numberPoints;i++) {
           distanceSoFar=distanceSoFar+distanceCoveredPoint;
@@ -307,7 +309,7 @@ var totalTime = 0;
           pointsArray[i] = firstLatLong;
           marker = createMarker(firstLatLong,"point","","red");
           /*marker.setPosition(firstLatLong);*/
-          marker.setTitle("distance:"+distanceSoFar);
+          marker.setTitle("Time to reach(minutes):"+(totalTime/(numberPoints+1)*(i+1) / 60).toFixed(2)+"\nDistance(miles):"+(distanceSoFar/1000.0));
         }
 
         console.log(pointsArray);
