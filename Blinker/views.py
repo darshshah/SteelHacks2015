@@ -98,8 +98,6 @@ def query_api(term, lloc, llong, miles):
     print 'le'
     response = searchingYelp(term, str(lloc)+' '+str(llong), miles)
     
-    print response
-
     businesses = response.get('businesses')
     
     if not businesses:
@@ -108,11 +106,24 @@ def query_api(term, lloc, llong, miles):
 
     return businesses
 
+def getGasStations(searchslatitude, searchslongitude, searchmiles):
+    gasurl = 'http://devapi.mygasfeed.com/stations/radius/' + str(searchslatitude) + '/' + str(searchslongitude) + '/' + str(searchmiles) + '/reg/distance/rfej9napna.json?'
+
+    conn = urllib2.urlopen(gasurl, None)
+
+    try:
+        response = json.loads(conn.read())
+    finally:
+        conn.close()
+
+    return response
+
+
 def searchyelp(request):
     
     context={}
     allBusinesses=[]
-
+    gasBusiness=[]
     
     if request.method == 'GET':
         searchterm = 'food'
@@ -135,26 +146,43 @@ def searchyelp(request):
     
     businessToClean = query_api(searchterm, searchslatitude, searchslongitude, searchmiles)
 
-    print businessToClean
+    gasStationsNearMe = getGasStations(searchslatitude, searchslongitude, searchmiles)
+
+    print "gas station info \n"
+    #print gasStationsNearMe
+    #print businessToClean
 
     try:
         for x in range(0,DISPLAY_NO):
             allBusinesses.append(cleanJson(businessToClean[x]))
+
+        for y in range(0,DISPLAY_NO):
+            gasBusiness.append(cleanJsonGas(gasStationsNearMe['stations'][y]))
             
     except urllib2.HTTPError as error:
         sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
     print 'I am final'
     
-    context['businesses']=allBusinesses
+    context['businesses'] = allBusinesses
     context['searchTerm'] = searchterm
+
     return render(request, 'Blinker/displayCleanJason.html', context)
-    
 
 
 def pointsArray(request):
     print request.GET['array']
     return redirect('home')
+
+def cleanJsonGas(gaspumps):
+    context = {}
+
+    context['business_name'] = gaspumps.get('station')
+    context['business_address']= gaspumps.get('address')
+    context['price'] = gaspumps.get('reg_price')
+
+    return context
+
 
 def cleanJson(business):
     
