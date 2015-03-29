@@ -11,7 +11,7 @@
 
   <div class="col-md-4 col-xs-0"></div>
   <div class="col-md-4 col-xs-12">
-    <button class="btn btn-primary btn-xs" onClick="hideSearch()">Back</button>
+    <button class="btn btn-primary btn-sm" onClick="hideSearch()">Back</button>
   </div>
   <div class="col-md-4 col-xs-0"></div>
 
@@ -36,7 +36,7 @@
 	      </small>
 	    </h4>
 	    <a href="{{business.business_url}}">View on yelp</a><br/>
-	    <a href="#">Add to route</a>
+	    <a href="javascript:reroute({{business.business_lat}},{{business.business_long}});">Add to route</a>
 	  </div>
 	</div>
       </li>

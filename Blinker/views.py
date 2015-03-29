@@ -166,5 +166,6 @@ def cleanJson(business):
     context['business_rating'] = business.get('rating')
     context['business_ratingImage'] = business.get('rating_img_url')
     context['business_url'] = business.get('mobile_url')
-    
+    context['business_lat'] = business.get('location').get('coordinate').get('latitude')
+    context['business_long'] = business.get('location').get('coordinate').get('longitude')
     return context
